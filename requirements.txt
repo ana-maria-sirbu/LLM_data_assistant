@@ -1,0 +1,11 @@
+streamlit
+pandas
+openai
+openpyxl
+psycopg2
+python-dotenv
+langchain-core
+langchain-openai
+langchain-community
+sqlalchemy
+tiktoken
