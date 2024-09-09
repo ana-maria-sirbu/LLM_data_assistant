@@ -24,8 +24,8 @@ This repository contains the code for a chatbot agent that interacts with a SQL 
 2. Environment Variables
 The project uses the following environment variables:
 
-OPENAI_API_KEY: Your OpenAI API key to enable interaction with GPT models.
-DATABASE_URL: The connection URL for the PostgreSQL database.
+- OPENAI_API_KEY: Your OpenAI API key to enable interaction with GPT models.
+- DATABASE_URL: The connection URL for the PostgreSQL database.
 
 Make sure to set these in a .env file or directly in your environment.
 
