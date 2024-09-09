@@ -17,9 +17,9 @@ This repository contains the code for a chatbot agent that interacts with a SQL 
 ## Setup and Usage
 
 1. Prerequisites
-Python 3.x
-PostgreSQL
-OpenAI API Key
+- Python 3.x
+- PostgreSQL
+- OpenAI API Key
 
 2. Environment Variables
 The project uses the following environment variables:
