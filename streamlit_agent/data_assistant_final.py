@@ -43,6 +43,17 @@ except ImportError:
 st.set_page_config(page_title="Data Assistant")
 st.title("Data Assistant 📈")
 
+
+# Inject CSS to hide only the three-dot menu
+hide_menu_style = """
+    <style>
+    #MainMenu {visibility: hidden;}
+    header {visibility: visible;}
+    </style>
+    """
+st.markdown(hide_menu_style, unsafe_allow_html=True)
+
+
 # Load environment variables from the .env file
 load_dotenv()
 
@@ -285,16 +296,15 @@ session_id = st.session_state["session_id"]
 
 # Capture the participant_id and treatment from the URL using st.query_params
 query_params = st.query_params
-participant_id = query_params.get(
-    "participant", None
-)  # Retrieve SAVEDID (participant_id) from the URL
+participant_id = query_params.get("participant", None)  # Retrieve SAVEDID (participant_id) from the URL
 treatment = query_params.get("treatment", None)  # Retrieve treatment value (1 or 2) from the URL
+
 
 # Set up memory
 msgs = StreamlitChatMessageHistory(key="langchain_messages")
 if len(msgs.messages) == 0:
     msgs.add_ai_message(
-        "Hello! I am the new AI-powered data assistant designed by Superstore. How may I help you?"
+        "Hello! I am the new LLM-powered data assistant designed by Superstore. How may I help you?"
     )
 
 view_messages = st.expander("View the message contents in session state")
@@ -495,7 +505,7 @@ if "messages" not in st.session_state or st.sidebar.button(
     st.session_state["messages"] = [
         {
             "role": "assistant",
-            "content": "Hello! I am the new AI-powered data assistant designed by Superstore. How may I help you?",
+            "content": "Hello! I am the new LLM-powered data assistant designed by Superstore. How may I help you?",
         }
     ]
 
@@ -509,7 +519,7 @@ def handle_explanation_click(interaction_id):
 # Display all messages from the session state
 
 if treatment == 2:
-    # if treatment is None:
+#if treatment is None:
     for msg in st.session_state.get("messages", []):
         if "expander" in msg:
             interaction_id = msg.get("interaction_id")
@@ -701,7 +711,7 @@ if user_query:
     explanation_displayed_time = None
 
     if treatment == 2:
-        # if treatment is None:
+    #if treatment is None:
         explanation_button_displayed_time = pd.Timestamp.now()
         if inter_steps:
             # Update session state with simplified steps

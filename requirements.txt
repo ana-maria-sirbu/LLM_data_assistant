@@ -1,4 +1,4 @@
-streamlit
+streamlit>=1.20.0
 pandas
 openai
 openpyxl
@@ -9,3 +9,4 @@ langchain-openai
 langchain-community
 sqlalchemy
 tiktoken
+altair<5
