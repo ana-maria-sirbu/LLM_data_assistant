@@ -44,18 +44,19 @@ st.set_page_config(page_title="Data Assistant")
 st.title("Data Assistant 📈")
 
 
-# Inject CSS to hide only the three-dot menu
-hide_menu_style = """
+# Inject CSS to hide the three-dot menu and the stop button
+hide_menu_and_stop_style = """
     <style>
-    #MainMenu {visibility: hidden;}
-    header {visibility: visible;}
+    #MainMenu {visibility: hidden;}  /* Hides the three-dot menu */
+    button[kind="stop"] {display: none;}  /* Hides the Stop button */
     </style>
     """
-st.markdown(hide_menu_style, unsafe_allow_html=True)
+st.markdown(hide_menu_and_stop_style, unsafe_allow_html=True)
 
 
 # Load environment variables from the .env file
 load_dotenv()
+
 
 # Use environment variables for OpenAI API key and PostgreSQL URL
 openai_api_key = os.getenv("OPENAI_API_KEY")
@@ -297,8 +298,11 @@ session_id = st.session_state["session_id"]
 # Capture the participant_id and treatment from the URL using st.query_params
 query_params = st.query_params
 participant_id = query_params.get("participant", None)  # Retrieve SAVEDID (participant_id) from the URL
-treatment = query_params.get("treatment", None)  # Retrieve treatment value (1 or 2) from the URL
-
+#treatment = query_params.get("treatment", None)  # Retrieve treatment value (1 or 2) from the URL
+try:
+    treatment = int(query_params.get("treatment", 1))  # Default to treatment 1 if not provided
+except (TypeError, ValueError):
+    treatment = 1  # Fallback to treatment 1 in case of error
 
 # Set up memory
 msgs = StreamlitChatMessageHistory(key="langchain_messages")
