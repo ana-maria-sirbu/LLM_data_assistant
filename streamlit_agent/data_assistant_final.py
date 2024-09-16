@@ -205,6 +205,20 @@ create_table_if_not_exist()
 add_columns_if_not_exist()
 
 
+# Function to get the next available id for a session
+def get_next_id_for_session(session_id):
+    with get_pg_connection() as pg_cursor:
+        pg_cursor.execute(
+            """
+            SELECT COALESCE(MAX(id), 0) + 1
+            FROM interactions_experiment
+            WHERE session_id = %s
+            """,
+            (session_id,)
+        )
+        return pg_cursor.fetchone()[0]  # Return the next id
+
+
 # Function to save interaction into PostgreSQL
 def save_interaction(
     session_id,
@@ -222,6 +236,9 @@ def save_interaction(
     explanation_clicked,
     explanation_displayed_time,
 ):
+    # Fetch the next available id for this session
+    question_id = get_next_id_for_session(session_id)
+
     intermediate_steps_str = str(intermediate_steps)  # Convert to string
     simplified_intermediate_steps_str = str(simplified_intermediate_steps)  # Convert to string
     user_query_sent_time_str = (
