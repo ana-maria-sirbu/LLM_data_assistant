@@ -382,7 +382,6 @@ User: How are you?
 SQL Agent: I'm doing great, thank you! How can I assist you with the database today? Here's the schema for your reference:
 - **Orders**: ("Row ID," "Order ID," "Order Date," "Ship Date," "Sales," "Profit," and more)
 - **People**: ("Regional Manager," "Region")
-- **Returns**: ("Returned," "Order ID")
 Feel free to ask any question you have about the data!
 
 When generating SQL queries for the SQLite database, ensure the following:
@@ -485,16 +484,25 @@ def excel_to_sqlite(file_path):
     # Create a writable SQLite database connection first
     con = sqlite3.connect(db_path)
     xls = pd.ExcelFile(file_path)
+
+    # Loop through the sheets and load them into the SQLite database
     for sheet_name in xls.sheet_names:
         df = xls.parse(sheet_name)
-
         df.to_sql(sheet_name, con, index=False, if_exists="replace")  # Load each sheet into SQLite
+
+    # Explicitly drop the 'Returns' table if it exists
+    try:
+        con.execute("DROP TABLE IF EXISTS Returns;")
+    except Exception as e:
+        print(f"Error while dropping Returns table: {e}")
+
     con.close()
 
     # Change the database to read-only mode
     con_read_only = sqlite3.connect(
         f"file:{db_path}?mode=ro", uri=True, check_same_thread=False
     )  # Create a read-only SQLite database connection
+
     return SQLDatabase(create_engine("sqlite:///database.db", creator=lambda: con_read_only))
 
 
