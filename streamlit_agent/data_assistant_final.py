@@ -205,6 +205,20 @@ create_table_if_not_exist()
 add_columns_if_not_exist()
 
 
+# Function to get the next available id for a session
+def get_next_id_for_session(session_id):
+    with get_pg_connection() as pg_cursor:
+        pg_cursor.execute(
+            """
+            SELECT COALESCE(MAX(id), 0) + 1
+            FROM interactions_experiment
+            WHERE session_id = %s
+            """,
+            (session_id,)
+        )
+        return pg_cursor.fetchone()[0]  # Return the next id
+
+
 # Function to save interaction into PostgreSQL
 def save_interaction(
     session_id,
@@ -222,6 +236,9 @@ def save_interaction(
     explanation_clicked,
     explanation_displayed_time,
 ):
+    # Fetch the next available id for this session
+    question_id = get_next_id_for_session(session_id)
+
     intermediate_steps_str = str(intermediate_steps)  # Convert to string
     simplified_intermediate_steps_str = str(simplified_intermediate_steps)  # Convert to string
     user_query_sent_time_str = (
@@ -365,7 +382,6 @@ User: How are you?
 SQL Agent: I'm doing great, thank you! How can I assist you with the database today? Here's the schema for your reference:
 - **Orders**: ("Row ID," "Order ID," "Order Date," "Ship Date," "Sales," "Profit," and more)
 - **People**: ("Regional Manager," "Region")
-- **Returns**: ("Returned," "Order ID")
 Feel free to ask any question you have about the data!
 
 When generating SQL queries for the SQLite database, ensure the following:
@@ -468,16 +484,25 @@ def excel_to_sqlite(file_path):
     # Create a writable SQLite database connection first
     con = sqlite3.connect(db_path)
     xls = pd.ExcelFile(file_path)
+
+    # Loop through the sheets and load them into the SQLite database
     for sheet_name in xls.sheet_names:
         df = xls.parse(sheet_name)
-
         df.to_sql(sheet_name, con, index=False, if_exists="replace")  # Load each sheet into SQLite
+
+    # Explicitly drop the 'Returns' table if it exists
+    try:
+        con.execute("DROP TABLE IF EXISTS Returns;")
+    except Exception as e:
+        print(f"Error while dropping Returns table: {e}")
+
     con.close()
 
     # Change the database to read-only mode
     con_read_only = sqlite3.connect(
         f"file:{db_path}?mode=ro", uri=True, check_same_thread=False
     )  # Create a read-only SQLite database connection
+
     return SQLDatabase(create_engine("sqlite:///database.db", creator=lambda: con_read_only))
 
 
