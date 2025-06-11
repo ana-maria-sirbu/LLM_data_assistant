@@ -41,5 +41,5 @@ $ pip install -r requirements.txt
 
 ```shell
 # Install the required packages
-$ streamliit run streamlit_agent/data_assstant_thesis_prototype.py
+$ streamlit run streamlit_agent/data_assistant_thesis_prototype.py
 ```

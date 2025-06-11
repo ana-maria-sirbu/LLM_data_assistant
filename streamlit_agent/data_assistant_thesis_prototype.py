@@ -7,7 +7,7 @@ This app provides an LLM-powered data assistant for querying a sample Superstore
 - User interactions and metadata are logged to an SQLite database called interactions.db.
 - You can set `treatment` to 1 (automatic explanation) or 2 (user-invoked explanation button).
 
-To use: Install requirements, provide a valid OpenAI API key in `.streamlit/secrets.toml`, and run the app with `streamlit run data_assistant_thesis_prototype.py `.
+To use: Install requirements, provide a valid OpenAI API key in `.streamlit/secrets.toml`, and run the app with `streamlit run streamlit_agent/data_assistant_thesis_prototype.py`.
 
 How to run:
 - Make sure your Excel data file is present at streamlit_agent/(US)Sample-Superstore.xlsx
