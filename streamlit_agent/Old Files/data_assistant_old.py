@@ -183,7 +183,7 @@ else:
 msgs = StreamlitChatMessageHistory(key="langchain_messages")
 if len(msgs.messages) == 0:
     msgs.add_ai_message(
-        "Hello! I am the new AI-powered data assistant designed by Superstore. How may I help you?"
+        "Hello! I am the new LLM-based data assistant designed by Superstore. How may I help you?"
     )
 
 view_messages = st.expander("View the message contents in session state")
@@ -384,7 +384,7 @@ if "messages" not in st.session_state or st.sidebar.button(
     st.session_state["messages"] = [
         {
             "role": "assistant",
-            "content": "Hello! I am the new AI-powered data assistant designed by Superstore. How may I help you?",
+            "content": "Hello! I am the new LLM-based data assistant designed by Superstore. How may I help you?",
         }
     ]
 

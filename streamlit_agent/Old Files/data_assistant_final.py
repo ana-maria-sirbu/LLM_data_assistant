@@ -4,7 +4,7 @@ import streamlit as st
 import pandas as pd
 import sqlite3
 import psycopg2
-from psycopg2 import sql  # For dynamic SQL queries
+from psycopg2 import sql
 from pathlib import Path
 from sqlalchemy import create_engine
 from langchain_core.prompts.chat import (
@@ -19,8 +19,6 @@ from langchain_openai import ChatOpenAI
 from langchain_community.utilities import SQLDatabase
 from langchain_community.chat_message_histories import StreamlitChatMessageHistory
 from langchain_community.agent_toolkits import create_sql_agent, SQLDatabaseToolkit
-
-# from langchain.agents.agent_types import AgentType
 import tiktoken
 import subprocess
 import sys
