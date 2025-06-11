@@ -1,4 +1,4 @@
-# Masther's thesis -  LangChain 🤝 Streamlit agent
+# LangChain 🤝 Streamlit agent
 
 ## Chatbot Agent for SQL Database Interaction
 
@@ -10,7 +10,7 @@ This repository contains the code for a chatbot agent that interacts with a SQL 
 
 ## Features
 
-- The chatbot interacts with a PostgreSQL database that contains interaction data, which includes user queries and chatbot responses.
+- The chatbot interacts with a SQLite database that contains interaction data, which includes user queries and chatbot responses.
 - Explanations for the chatbot's answers can either be provided automatically or via a button.
 - The content of the explanations is the same in both versions; only the method of provision differs.
 
@@ -18,14 +18,12 @@ This repository contains the code for a chatbot agent that interacts with a SQL 
 
 1. Prerequisites
 - Python 3.x
-- PostgreSQL
 - OpenAI API Key
 
 2. Environment Variables
 The project uses the following environment variables:
 
 - OPENAI_API_KEY: Your OpenAI API key to enable interaction with GPT models.
-- DATABASE_URL: The connection URL for the PostgreSQL database.
 
 Make sure to set these in a .env file or directly in your environment.
 
@@ -39,10 +37,9 @@ $ pip install -r requirements.txt
 
 4. Running
 
-- Set up your PostgreSQL database and ensure the interactions table is ready.
 - Run the Streamlit application:
 
 ```shell
 # Install the required packages
-$ streamlit run streamlit_agent/data_assistant_final.py
+$ streamliit run streamlit_agent/data_assstant_thesis_prototype.py
 ```
